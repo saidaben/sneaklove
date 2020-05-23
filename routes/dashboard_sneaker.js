@@ -8,7 +8,6 @@ const sneakerModel = require("./../models/Sneaker");
 router.get("/products", (req, res, next) => {
     sneakerModel
         .find()
-        .populate("category")
         .then((dbRes) =>
             res.render("products", {
                 products: dbRes,
@@ -18,16 +17,16 @@ router.get("/products", (req, res, next) => {
         .catch(next);
 });
 
-//okk mais categories je sais pas a quoi il se rapporte??
+//okk 
 router.get("/products_add", (req, res, next) => {
     sneakerModel
         .find()
-        .then((categories) =>
+        .then(() =>
             res.render("products_add", {
-                categories,
+           
                 title: "Créer un produit",
             })
-        )
+        ) 
         .catch(next);
 });
 
@@ -45,12 +44,12 @@ router.get("/products_add", (req, res, next) => {
 
 
 
-//404
+//erreur: Cast to ObjectId failed for value ":id" at path "_id" for model "Sneaker"
 
 router.get( "/product_edit/:id",(req, res, next) => {
       Promise.all([sneakerModel.findById(req.params.id)])
         .then((dbResponses) => {
-          res.render("product_edit", {
+          res.render("product_edit/:id", {
             product: dbResponses[0], 
             title: "Editer un produit",
           });
@@ -70,7 +69,7 @@ router.post("/product_edit/:id", (req, res, next) => {
 
 
 
-// est ce quon doit faire route delete? a voir, on peu pas voir tant que le edit marche pas 
+// a voir, on peu pas voir tant que le edit marche pas 
 router.post("/product/delete/:id", (req, res, next) => {
     sneakerModel
         .findByIdAndDelete(req.params.id)
@@ -78,7 +77,7 @@ router.post("/product/delete/:id", (req, res, next) => {
         .catch(next);
 });
 
-//ok mais pb de model, n'affiche pas les cléfs dans la bdd
+//ok
 router.post("/products_add", (req, res) => {
     const sneaker = req.body;
     sneakerModel

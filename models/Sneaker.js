@@ -17,13 +17,20 @@ const sneakerSchema = new Schema({
     size: Number,  
     description: String,  
     price: Number,  
-},
-    {
-        category: String ["men", "women", "kids"],  
-    // id_tags: [ObjectId]  
+
+        category:{
+             String: ["men", "women", "kids"]
+   },
+            //  id_tags:{
+            //      object: [ObjectId]},  
    
 
 });
+
+// id: {
+//     type: mongoose.Schema.Types.ObjectId,
+//     ref: 'Product'
+//     }
 
 const sneakerModel = mongoose.model("Sneaker", sneakerSchema);
 

@@ -20,7 +20,7 @@ router.get("/one_product/:id", (req, res) => {
 
 //404? verifer la route
 router.get("/partial/sneaker_mini", (req, res) => {
-  res.render("/partial/sneaker_mini");
+  res.render("partial/sneaker_mini");
 });
 
 //404? pareil 
