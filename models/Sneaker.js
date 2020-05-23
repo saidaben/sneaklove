@@ -16,12 +16,15 @@ const sneakerSchema = new Schema({
     ref: String,  
     size: Number,  
     description: String,  
-    price: Number,  
-    // category: String [men, women, kids],  
-    // id_tags: [ObjectId]  
-    }
+    price: Number,
+},
+    {
+    category: String ["men", "women", "kids"],
+    
+    // id_tags:[ObjectId]
 
-);
+    
+});
 
 const sneakerModel = mongoose.model("Sneaker", sneakerSchema);
 

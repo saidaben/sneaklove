@@ -24,6 +24,9 @@ router.get("/signup", (req, res) => {
 router.get("/signin", (req, res) => {
   res.render("signin");
 });
+// router.get("/sneaker_mini", (req, res) => {
+//   res.send("love");
+// });
 
 
 router.get("/partial/shop_head", (req, res) => {
