@@ -23,7 +23,10 @@ const sneakerSchema = new Schema({
    },
             //  id_tags:{
             //      object: [ObjectId]},  
-   
+            // id_tags: {
+            //     type: Schema.Types.ObjectId,
+            //     ref:"Tag",
+            //   },
 
 });
 

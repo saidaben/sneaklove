@@ -1,5 +1,5 @@
 <div class="big-container product-manage-wrapper flexed-item">
-  <form action="/products_add" method="post" class="add-product-form" enctype="multiparty/form-data">
+  <form action="/products_add" method="post" class="add-product-form">
     {{#if msg}}
     <p class="msg {{msg.statu}}">{{msg.txt}}</p>
     {{/if}}
@@ -19,7 +19,8 @@
       <input id="size" 
       type="number" class="input-text input" placeholder="ex: 37" value="42" name="size">
     </div>
-    <div class="form-item-wrapper flexed-item">
+[23:40]
+<div class="form-item-wrapper flexed-item">
       <label for="description" class="label-descr label">Description</label>
       <input id="description" type="text" class="input-text input"
         placeholder="The better sneakers to run" value="foo bar baz" name="description" >
