@@ -7,11 +7,13 @@ const router = express.Router();
 router.get("/", (req, res) => {
   res.render("index");
 });
-
-//ok
-router.get("/products/:id", (req, res) => {
+router.get("/sneakers/women", (req, res) => {
   res.render("products");
 });
+//ok
+// router.get("/products/:id", (req, res) => {
+//   res.render("products");
+// });
 
 //ok
 router.get("/one_product/:id", (req, res) => {
@@ -19,9 +21,9 @@ router.get("/one_product/:id", (req, res) => {
 });
 
 //ok je l ai sortie de partial 
-router.get("/sneaker_mini", (req, res) => {
-  res.render("sneaker_mini");
-});
+// router.get("/sneaker_mini", (req, res) => {
+//   res.render("sneaker_mini");
+// });
 
 
 
