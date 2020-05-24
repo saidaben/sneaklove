@@ -18,15 +18,11 @@ router.get("/one_product/:id", (req, res) => {
   res.render("one_product");
 });
 
-//404? verifer la route
-router.get("/partial/sneaker_mini", (req, res) => {
-  res.render("partial/sneaker_mini");
+//ok je l ai sortie de partial 
+router.get("/sneaker_mini", (req, res) => {
+  res.render("sneaker_mini");
 });
 
-//404? pareil 
-router.get("/partial/shop_head", (req, res) => {
-  res.send("love");
-});
 
 
 

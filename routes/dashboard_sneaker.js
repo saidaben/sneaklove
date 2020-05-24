@@ -1,20 +1,5 @@
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-const express = require("express"); // import express in this module
-const router = new express.Router(); // create an app sub-module (router)
+const express = require("express"); 
+const router = new express.Router(); 
 const uploader = require("./../config/cloudinary");
 const sneakerModel = require("./../models/Sneaker");
 
@@ -121,6 +106,7 @@ router.get("/products_manage",(req, res, next) => {
 
 module.exports = router;
 
+//ok sa marche mais tjrs pas de produits donc on peu pas verifier
 
 //teste  latifa code/////////////////////////////////////////////////ne marche pas
 
@@ -134,11 +120,11 @@ router.post("/products", uploader.single("image"), (req, res, next) => {
     // console.log(">>> fichier posté ? >>>", req.file);
     // console.log(">>> nouveau produit >>> ", newProduct);
   
-    productModel
+    sneakerModel
       .create(newProduct)
       .then((dbRes) => {
         // console.log("produit ajouté en bdd >>> ", dbRes);
-        res.redirect("/products-manage");
+        res.redirect("/products_manage");
       })
       .catch(next);
   });
@@ -149,7 +135,7 @@ router.post("/products", uploader.single("image"), (req, res, next) => {
     try {
       const products = await sneakerModel.findById(req.params.id);
       // ci-dessus, on attend (await) le resultat d'une action asynchrone
-      res.render("produts-manage");
+      res.render("produts_manage");
     } catch (dbErr) {
       next(dbErr);
     }
