@@ -29,15 +29,19 @@ router.get("/products", (req, res, next) => {
 
 
 
-router.get("/product_edit/:id", (req, res) => {
-    sneakerModel.findById(req.params.id)
-        .then(dbRes => {
-            res.render("product_edit", {
-                product: dbRes
-            })
-        })
-        .catch(dbErr => console.error(dbErr))
-});
+// router.get("/product_edit/:id", (req, res) => {
+//     sneakerModel.findById(req.params.id)
+//         .then(dbRes => {
+//             res.render("product_edit", {
+//                 product: dbRes
+//             })
+//         })
+//         .catch(dbErr => console.error(dbErr))
+// });
+
+
+
+
 
 
 
@@ -46,7 +50,7 @@ router.get("/product_edit/:id", (req, res) => {
 router.get( "/product_edit/:id",(req, res, next) => {
       Promise.all([sneakerModel.findById(req.params.id)])
         .then((dbResponses) => {
-          res.render("product_edit/:id", {
+          res.render("product_edit", {
             product: dbResponses[0], 
             title: "Editer un produit",
           });

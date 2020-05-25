@@ -23,10 +23,10 @@ const sneakerSchema = new Schema({
    },
             //  id_tags:{
             //      object: [ObjectId]},  
-            id_tags: {
-                type: mongoose.Schema.Types.ObjectId,
-                ref:"Tag",
-              },
+            // id_tags: {
+            //     type: mongoose.Schema.Types.ObjectId,
+            //     ref:"Tag",
+            //   },
 
 });
 
