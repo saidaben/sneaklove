@@ -25,10 +25,7 @@ router.get("/products_add", (req, res) => {
 router.get("/product_edit", (req, res) => {
   res.render("product_edit");
 });
-//ok
-// router.get("/products/:id", (req, res) => {
-//   res.render("products");
-// });
+
 
 //ok
 router.get("/one_product/:id", (req, res) => {
