@@ -4,19 +4,20 @@ const uploader = require("./../config/cloudinary");
 const sneakerModel = require("./../models/Sneaker");
 
 //ok
-router.get("/products", (req, res, next) => {
-    sneakerModel
-      .find() 
-      .then((dbRes) => {
-        console.log(" tous les products >>>", dbRes);
+// router.get("/products", (req, res, next) => {
+//     sneakerModel
+//       .find() 
+//       .populate("category")
+//       .then((dbRes) => {
+//         console.log(" tous les products >ll>>", dbRes);
  
-        res.render("products", {
-          products: dbRes,
-          title: "Tous nos produits",
-        }); 
-      })
-      .catch(next);
-  });
+//         res.render("products", {
+//           products: dbRes,
+         
+//         }); 
+//       })
+//       .catch(next);
+//   });
 
 
 //ok pas touche
@@ -46,15 +47,15 @@ router.post("/products_add", (req, res) => {
 
 // je poste un produit et comme c la page products qui me sert
 // les products je redirige mon resulat dans products
-router.post("/products_add", (req, res) => {
-    sneakerModel
-      .create(req.body)
-      .then((dbRes) => {
-        console.log("produit ajouté en bdd >>> ", dbRes);
-        res.redirect("/products_manage");
-      })
-      .catch((dbErr) => console.error(dbErr));
-  });
+// router.post("/products_add", (req, res) => {
+//     sneakerModel
+//       .create(req.body)
+//       .then((dbRes) => {
+//         console.log("produit ajouté en bdd >>> ", dbRes);
+//         res.redirect("/products_manage");
+//       })
+//       .catch((dbErr) => console.error(dbErr));
+//   });
  
 
 
@@ -65,16 +66,6 @@ router.post("/product/delete/:id", (req, res, next) => {
         .catch(next);
 });
 
-
-router.post("/product_edit/:id", (req, res) => {
- sneakerModel.findByIdAndUpdate(req.params.id,req.body)
-     .then(dbRes=>res.redirect("/product_edit"))
-     .catch(dbErr=>console.error(dbErr))
- 
-       
-        
-     
-})
 
 
 
@@ -95,37 +86,80 @@ router.get("/products_manage",(req, res, next) => {
 
 
 ///////////code teste////////////////////
-
-
-// ok saffiche mais prends pas en compte les id 
-
-
-router.get("/product_edit/:id", (req, res) => {
-    sneakerModel.findById(req.params.id)
+router.get("/products", (req, res) => {
+    sneakerModel
+    .create(req.body)
         .then((dbRes) => {
-            res.render("/product_edit", {
-                sneaker: dbRes
-            })
+            res.render("/sneaker/collection",{sneakers:dbRes});
         })
         .catch(dbErr=>console.error(dbErr))
 });
 
+router.get("/sneakers/men", (req, res) => {
+ sneakerModel 
+    .find()
+    .then((dbRes) => {
+      console.log(" tous les products >>>>>>>", dbRes);
+      res.render("products", { sneakers : dbRes }); 
+    })
+    
+    .catch((dbErr) => console.log(dbErr));
+});
 
 
 
+router.get(
+  "/product_edit/:id",
+  (req, res, next) => {
+    // promise.all va attendre la résolution de toutes les promesses passées en argument
+    Promise.all([sneakerModel.findById(req.params.id)])
+      .then((dbResponses) => {
+        console.log(dbResponses)
+        // les réponses sont fournies dans un Array dans le même ordre que l'Array fournit en argument du Promise.all()
+        res.render("product_edit", {
+          sneaker: dbResponses[0], // on accède donc au résultat avec les indices du tableau initial
+          title: "Editer un produit",
+        });
+      })
+      .catch(next); // toutes les promesses doivent être tenues, sinon le catch sera déclenché
+  }
+);
 
   //le id marche pas sinon il marche
 
-  router.get("/sneaker_mini/:id", async (req, res, next) => {
+  // 
 
-    try {
-      const products = await sneakerModel.findById(req.params.id);
+  
+// router.get("/product_edit/:id", (req, res) => {
+//   sneakerModel.findByIdAndUpdate(req.params.id,req.body)
+//       .then(dbRes=>res.redirect("/product_edit"))
+//       .catch(dbErr=>console.error(dbErr))
+  
+        
+         
+      
+//  })
 
-      res.render("produts_manage");
-    } catch (dbErr) {
-      next(dbErr);
-    }
-  });
+ router.post("/product_edit/:id", (req, res) => {
+  sneakerModel.findByIdAndUpdate(req.params.id, req.body)
+      .then(dbRes=>res.redirect("/products_manage"))
+      .catch(dbErr=>console.error(dbErr))
+ 
+ });
+
+//  router.post("/product_edit/:id", uploader.single("image"), (req, res, next) => {
+//   const updatedProduct = { ...req.body };
+//   if (req.file) updatedProduct.image = req.file.secure_url;
+  
+//   // console.log(">>> fichier posté ? >>>", req.file);
+//   // console.log(">>> nouveau mis à jour ? >>> ", updatedProduct);
+
+//   productModel
+//     .findByIdAndUpdate(req.params.id, updatedProduct)
+//     .then(() => res.redirect("/products_manage"))
+//     .catch(next);
+// });
+ 
 
  
   
