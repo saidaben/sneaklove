@@ -2,82 +2,92 @@ const express = require("express");
 const router = new express.Router(); 
 const uploader = require("./../config/cloudinary");
 const sneakerModel = require("./../models/Sneaker");
-
-
-
-// ok
-router.get("/products", (req, res, next) => {
+//ok pas touche
+router.post("/products_add", (req, res) => {
     sneakerModel
-        .find()
-        .then((dbRes) =>
-            res.render("products", {
-                products: dbRes,
-                title: "Gérer les produits",
-            })
-        )
-        .catch(next);
-});
+      .create(req.body)
+      .then((dbRes) => {
+        console.log("produit ajouté en bdd >>> ", dbRes);
+        res.redirect("/products_manage");
+      })
+      .catch((dbErr) => console.error(dbErr));
+  });
+//ok pas touche
+router.get("/products_add", (req, res) => {
+    sneakerModel 
+       .find()
+       .then((dbRes) => {
+         console.log(" tous les products >>>>>>>", dbRes);
+         res.render("products_add", { sneakers : dbRes }); 
+       })
+       .catch((dbErr) => console.log(dbErr));
+   });
 
-// okk 
-// router.get("/products_add", (req, res, next) => {
-//     sneakerModel
-      
-//         .then((dbRes) =>
-//             res.render("products_add") 
-//         .catch(next));
-// });
-
-
-
-// router.get("/product_edit/:id", (req, res) => {
-//     sneakerModel.findById(req.params.id)
-//         .then(dbRes => {
-//             res.render("product_edit", {
-//                 product: dbRes
-//             })
-//         })
-//         .catch(dbErr => console.error(dbErr))
-// });
-
-
-
-
-
-
-
-// erreur: Cast to ObjectId failed for value ":id" at path "_id" for model "Sneaker"
-
-router.get( "/product_edit/:id",(req, res, next) => {
-      Promise.all([sneakerModel.findById(req.params.id)])
-        .then((dbResponses) => {
-          res.render("product_edit", {
-            product: dbResponses[0], 
-            title: "Editer un produit",
-          });
-        })
-        .catch(next); 
-    }
-    );
-router.post("/product_edit/:id", (req, res, next) => {
-
+// je poste un produit et comme c la page products qui me sert
+// les products je redirige mon resulat dans products
+router.post("/products_add", (req, res) => {
     sneakerModel
-        .findByIdAndUpdate(req.params.id, req.body)
-        .then(() => res.redirect("/products_manage"))
-    .catch(next);
-});
+      .create(req.body)
+      .then((dbRes) => {
+        console.log("produit ajouté en bdd >>> ", dbRes);
+        res.redirect("/products_manage");
+      })
+      .catch((dbErr) => console.error(dbErr));
+  });
+ 
 
 
-
-// a voir, on peu pas voir tant que le edit marche pas 
 router.post("/product/delete/:id", (req, res, next) => {
     sneakerModel
         .findByIdAndDelete(req.params.id)
         .then((dbRes) => res.redirect("/products_manage"))
         .catch(next);
 });
+///////////code teste////////////////////
+
+
+
+router.get("/product_edit/:id", (req, res) => {
+    sneakerModel.findById(req.params.id)
+        .then((dbRes) => {
+            res.render("products_manage", {
+                sneaker: dbRes
+            })
+        })
+        .catch(dbErr=>console.error(dbErr))
+});
+
+
+
+router.post("/product_edit/:id", (req, res) => {
+ sneakerModel.findByIdAndUpdate(req.params.id,req.body)
+     .then(dbRes=>res.redirect("/products_manage"))
+     .catch(dbErr=>console.error(dbErr))
+ 
+       
+        
+     
+})
+
+
+
+
+
+
+
+  
+
+
+
+// a voir, on peu pas voir tant que le edit marche pas 
+
+
+
+
+
 
 // ok
-// router.post("/productsadd", (req, res) => {
+// router.post("/products_add", (req, res) => {
 //     const sneaker = req.body;
 //     sneakerModel
 //         .create(req.body)
@@ -111,24 +121,21 @@ router.get("/products_manage",(req, res, next) => {
 
 //teste  latifa code/////////////////////////////////////////////////ne marche pas
 
-// router.post("/products", uploader.single("image"), (req, res, next) => {
-//     const newProduct = { ...req.body };
-    // prend toutes les clés valeur contenues dans req.body et copie les dans un nouvel objet nommé newProduct
-  
-    // si l'utilisateur a uploadé un fichier, req.file ne sera pas undefined : il vaudra un objet représentant le fichier uploadé sur votre compte cloudinary
-    // if (req.file) newProduct.image = req.file.secure_url; // on associe l'url de l'image en https @cloudinary
+router.post("/products_add", uploader.single("image"), (req, res, next) => {
+    const newProduct = { ...req.body };
+   
+    if (req.file) newProduct.image = req.file.secure_url; // on associe l'url de l'image en https @cloudinary
     
-    // console.log(">>> fichier posté ? >>>", req.file);
-    // console.log(">>> nouveau produit >>> ", newProduct);
+
   
-    // sneakerModel
-    //   .create(newProduct)
-    //   .then((dbRes) => {
-        // console.log("produit ajouté en bdd >>> ", dbRes);
-//         res.redirect("/products_manage");
-//       })
-//       .catch(next);
-//   });
+    sneakerModel
+      .create(newProduct)
+      .then((dbRes) => {
+        console.log("produit ajouté en bdd >>> ", dbRes);
+        res.redirect("/products_manage");
+      })
+      .catch(next);
+  });
 
 
 //   router.get("/sneaker_mini/:id", async (req, res, next) => {

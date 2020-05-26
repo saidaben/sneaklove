@@ -61,7 +61,9 @@ app.use(require("./routes/index"));
 app.use(require("./routes/auth"));
 app.use(require("./routes/dashboard_sneaker"));
 
-app.use(require("./routes/women-sneakers"));
+// app.use(require("./routes/women-sneakers"));
+
+
 
 
 
